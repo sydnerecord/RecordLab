@@ -1,3 +1,12 @@
 ### Geodiversity bash Script ###
+<<<<<<< Updated upstream
 
 #!/bin/bash
+=======
+#!/bin/bash
+#SBATCH --ntaks=1
+#SBATCH --time=00:01:00
+#SBATCH --account=PUOM0017
+#SBATCH --job-name=Rtest
+#SBATCH -e Rtest.batch-%j.err ###%j will be replaced by the $SLURM_JOB_ID
+>>>>>>> Stashed changes
