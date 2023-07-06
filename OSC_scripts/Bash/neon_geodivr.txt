@@ -1,23 +1,24 @@
-### Geodiversity bash Script ###
-
 #!/bin/bash
+### Geodiversity bash Script ###
+## To run: sbatch neon_geodivr.txt
 ####### SBATCH Lines for Resource Request #######
 #SBATCH --account=PUOM0017
 #SBATCH --job-name=lastname_mainscriptname
 #SBATCH --time=00:10:00
-#SBATCH --ntasks=1		##number of tasks
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=1	##number of CPUs (or cores)
-#SBATCH --mem-per-cpu=1G	##memory required (bytes) per allocated CPU
+## optional slurm requests for parellel jobs ##
+##Parallel jobs: (memory needed per node)*(number of nodes) 
+#SBATCH --ntasks-per-node=1	##number of CPUs for a node (parallel job))
+#SBATCH --mem-per-cpu=1GB	##memory required (bytes) per allocated CPU
 
 ####### Error Code script #######
 #SBATCH -e Rscript.batch-%j.err ##%j will be replaced by the $SLURM_JOB_ID
 #SBATCH -o Rscript.batch-%j.out	##R output file (-o short flag for --output)s
 #SLURM already starts job in working directory
 
-cd $SLURM_SUBMIT_DIR ##move to the slurm submit directory
+cd $SLURM_SUBMIT_DIR ##move to start job in working directory
 
-####### Set up softwae environment  #######
+####### Set up software environment  #######
 module purge ##purge then load necessary modules
 module load intel
 module load powertools
