@@ -4,13 +4,9 @@
 
 #### SBATCH Lines for Resource Request ####
 #SBATCH --account=PUOM0017
-#SBATCH --job-name=lastname_mainscriptname ##consistent naming convention
+#SBATCH --job-name=Amador_TestRScript ##consistent naming convention
 #SBATCH --time=00:10:00
 #SBATCH --nodes=1
-#### optional slurm requests for parellel jobs ####
-##Parallel jobs: (memory needed per node)*(number of nodes) 
-#SBATCH --ntasks-per-node=1	##number of CPUs for a node (parallel job))
-#SBATCH --mem-per-cpu=1GB	##memory required (bytes) per allocated CPU
 
 #### Creating error code & output script ####
 #SBATCH -e Rscript.batch-%j.err ##%j will be replaced by the $SLURM_JOB_ID
@@ -24,23 +20,19 @@ cd $SLURM_SUBMIT_DIR	##where all project-specific files stored
 module purge ##purge then load necessary modules - run before loading
 module load intel 
 module load powertools 
-module load openMPI	#parellel job requirement 	
-module load gdal	#external geospatial dependency
-module load geos	#external geospatial dependency
-module load proj	#external geospatial dependency
 module load R/4.0.2	#specific version of R -- call R last
 
 #### Copy scripts into the temp directory ####
-cp Rscript.R Rscript.batch-%j.out Rscript.batch-%j.err $TMPDIR ##copy files into temp directory (last argument)
+cp TestRScript.r TestRScript.batch-%j.out TestRScript.batch-%j.err $TMPDIR ##copy files into temp directory (last argument)
 
 #### Move to the temp directory #### 
 cd $TMPDIR 
 
 #### Open R and run script(s) ####
-R CMD BATCH Rscript.R Rscript.batch-%j.out Rscript.batch-%j.err 
+R CMD BATCH TestRScript.R TestRScript.batch-%j.out TestRScript.batch-%j.err 
 
 #### Copy output and explicit exports back ‌into working directory ####
-cp Rscript.batch-%j.out Rscript.batch-%j.err Regression-output.txt $SLURM_SUBMIT_DIR
+cp TestRScript.batch-%j.out TestRScript.batch-%j.err Regression-output.txt $SLURM_SUBMIT_DIR
 
 sleep 3000 ##wiggle space to properly close files (seconds)
 
